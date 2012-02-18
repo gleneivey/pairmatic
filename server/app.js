@@ -7,7 +7,9 @@ app.listen(80);
 function handler (req, res) {
   var url = req.url;
   if (url == '/') { url = '/index.html'; }
-  fs.readFile(__dirname + url,
+console.log(__dirname);
+console.log(url);
+  fs.readFile(__dirname + '/../client' + url,
       function (err, data) {
 	if (err) {
 	  res.writeHead(500);
