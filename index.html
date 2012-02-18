@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>PairMatic for Pivotal Tracker Team</title>
+    <script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui-1.8.17.custom.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function put_this_into_that(person, target) {
+	var td_position = $(target).offset();
+	person.style.top = td_position.top + 10;
+	person.style.left = td_position.left + 15;
+      }
+
+      var socket = io.connect('/');
+      socket.on('drop', function (data) {
+        put_this_into_that(
+          $('#' + data.person).get(0),
+          $('#' + data.target).get(0)    );
+      });
+    </script>
+    <style>
+      .person {
+        position: absolute;
+        width: 70px;
+        height: 50px;
+        background-color: white;
+        border: 2px solid #eee;
+        text-align: center;
+        line-height: 50px;
+      }
+      .where {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        font-size: 50%;
+        margin-top: -16px;
+        margin-right: 3px
+      }
+      table {
+        float: right;
+        padding-top: 20px;
+        padding-right: 20px;
+      }
+      td {
+        width: 100px;
+        height: 75px;
+        border: 1px solid #22a;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr><td id='a1'>&nbsp;</td><td id='a2'>&nbsp;</td></tr>
+      <tr><td id='b1'>&nbsp;</td><td id='b2'>&nbsp;</td></tr>
+      <tr><td id='c1'>&nbsp;</td><td id='c2'>&nbsp;</td></tr>
+      <tr><td id='d1'>&nbsp;</td><td id='d2'>&nbsp;</td></tr>
+      <tr><td id='e1'>&nbsp;</td><td id='e2'>&nbsp;</td></tr>
+      <tr><td id='f1'>&nbsp;</td><td id='f2'>&nbsp;</td></tr>
+      <tr><td id='g1'>&nbsp;</td><td id='g2'>&nbsp;</td></tr>
+      <tr><td id='h1'>&nbsp;</td><td id='h2'>&nbsp;</td></tr>
+      <tr><td id='i1'>&nbsp;</td><td id='i2'>&nbsp;</td></tr>
+      <tr><td id='j1'>&nbsp;</td><td id='j2'>&nbsp;</td></tr>
+    </table>
+
+    <div id="mark" class="person"><div class="where">D</div>Mark</div>
+    <div id="nick" class="person"><div class="where">D</div>Nick</div>
+    <div id="glen" class="person">Glen</div>
+    <div id="lewis" class="person"><div class="where">D</div>Lewis</div>
+    <div id="chad" class="person">Chad</div>
+    <div id="alex" class="person"><div class="where">D</div>Alex</div>
+    <div id="matt" class="person"><div class="where">D</div>Matt</div>
+    <div id="thomas" class="person"><div class="where">SF</div>Thomas</div>
+    <div id="david" class="person"><div class="where">SF</div>David</div>
+    <div id="jordi" class="person"><div class="where">SF</div>Jordi</div>
+    <div id="dan" class="person">Dan</div>
+    <div id="chris" class="person">Chris</div>
+    <div id="jo" class="person">Jo</div>
+    <div id="christian" class="person"><div class="where">SF</div>Christian</div>
+    <div id="johan" class="person"><div class="where">SF</div>Johan</div>
+
+    <script type="text/javascript">
+      var x = 10;
+      var y = 80;
+      $('.person').draggable().each(function() {
+	this.style.left = x;
+	this.style.top = y;
+	x += 90;
+	if (x >= 400) {
+	  y += 90;
+	  x = 10;
+	}
+      });
+
+      $('td').droppable({
+        drop: function(event, ui) {
+          var person = ui.draggable.get(0);
+          put_this_into_that(person, this);
+	  socket.emit('drop', {
+              person: person.id,
+              target: this.id
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
