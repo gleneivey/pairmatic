@@ -1,52 +1,12 @@
 <html>
   <head>
     <title>PairMatic for Pivotal Tracker Team</title>
+    <link href="style/app.css" media="screen"
+          rel="Stylesheet" type="text/css" />
     <script type="text/javascript" src="vendor/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="vendor/jquery-ui-1.8.17.custom.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      function put_this_into_that(person, target) {
-	var td_position = $(target).offset();
-	person.style.top = td_position.top + 10;
-	person.style.left = td_position.left + 15;
-      }
-
-      var socket = io.connect('/');
-      socket.on('drop', function (data) {
-        put_this_into_that(
-          $('#' + data.person).get(0),
-          $('#' + data.target).get(0)    );
-      });
-    </script>
-    <style>
-      .person {
-        position: absolute;
-        width: 70px;
-        height: 50px;
-        background-color: white;
-        border: 2px solid #eee;
-        text-align: center;
-        line-height: 50px;
-      }
-      .where {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        font-size: 50%;
-        margin-top: -16px;
-        margin-right: 3px
-      }
-      table {
-        float: right;
-        padding-top: 20px;
-        padding-right: 20px;
-      }
-      td {
-        width: 100px;
-        height: 75px;
-        border: 1px solid #22a;
-      }
-    </style>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
   </head>
   <body>
     <table>
@@ -77,30 +37,5 @@
     <div id="jo" class="person">Jo</div>
     <div id="christian" class="person"><div class="where">SF</div>Christian</div>
     <div id="johan" class="person"><div class="where">SF</div>Johan</div>
-
-    <script type="text/javascript">
-      var x = 10;
-      var y = 80;
-      $('.person').draggable().each(function() {
-	this.style.left = x;
-	this.style.top = y;
-	x += 90;
-	if (x >= 400) {
-	  y += 90;
-	  x = 10;
-	}
-      });
-
-      $('td').droppable({
-        drop: function(event, ui) {
-          var person = ui.draggable.get(0);
-          put_this_into_that(person, this);
-	  socket.emit('drop', {
-              person: person.id,
-              target: this.id
-          });
-        }
-      });
-    </script>
   </body>
 </html>
