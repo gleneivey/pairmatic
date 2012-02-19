@@ -18,12 +18,31 @@
 
 var pairingState = {};
 var dragstartPosition = {};
+var dragWatcher = null;
 
-function storeDragstartPosition(event, ui) {
+
+
+function onDragStart(event, ui) {
   dragstartPosition = {
     top: ui.originalPosition.top,
     left: ui.originalPosition.left
   };
+
+  var person = event.target;
+  dragWatcher = setInterval(
+      function() {
+	socket.emit('move', {
+	    person: person.id,
+	    top: person.style.top,
+	    left: person.style.left
+	 });
+      }, 70
+  );
+}
+
+function onDragStop(event, ui) {
+  clearInterval(dragWatcher);
+  dragWatcher = null;
 }
 
 function resetPersonPositions() {
@@ -32,7 +51,8 @@ function resetPersonPositions() {
   var x = 10;
   var y = 80;
   $('.person').draggable({
-    start: storeDragstartPosition
+    start: onDragStart,
+    stop: onDragStop
   }).each(function() {
     this.style.left = x;
     this.style.top = y;
@@ -78,6 +98,12 @@ function doUnpair(elem) {
    });
 }
 
+function doMove(data) {
+  person = $('#' + data.person).get(0);
+  person.style.top = data.top;
+  person.style.left = data.left;
+}
+
 var socket = io.connect('/');
 socket.on('init', function (data) {
   $.each(data['state'], function(target, person) {
@@ -92,9 +118,10 @@ socket.on('pair', function (data) {
 });
 socket.on('unpair', function (data) {
   removeHashEntryByValue(pairingState, data.person);
-  person = $('#' + data.person).get(0);
-  person.style.top = data.top;
-  person.style.left = data.left;
+  doMove(data);
+});
+socket.on('move', function (data) {
+  doMove(data);
 });
 
 
@@ -111,11 +138,11 @@ $(function() {
     [ "thomas",    "Thomas",    "tb",  "SF" ],
     [ "david",     "David",     "ds",  "SF" ],
     [ "jordi",     "Jordi",     "jn",  "SF" ],
+    [ "christian", "Christian", "cn",  "SF" ],
+    [ "johan",     "Johan",     "ji",  "SF" ],
     [ "dan",       "Dan",       "dp",  null ],
     [ "chris",     "Chris",     "ct",  null ],
-    [ "jo",        "Jo",        "jw",  null ],
-    [ "christian", "Christian", "cn",  "SF" ],
-    [ "johan",     "Johan",     "ji",  "SF" ]
+    [ "jo",        "Jo",        "jw",  null ]
   ];
 
 
