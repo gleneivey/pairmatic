@@ -52,10 +52,32 @@ function handler (req, res) {
 }
 
 
-// browser-to-browser relay
 var pairingState = {};
+var personData = [
+    [ "mark",      "Mark",      "mm",  "D"  ],
+    [ "nick",      "Nick",      "nrs", "D"  ],
+    [ "glen",      "Glen",      "gi",  null ],
+    [ "lewis",     "Lewis",     "lh",  "D"  ],
+    [ "chad",      "Chad",      "caw", null ],
+    [ "alex",      "Alex",      "aj",  "D"  ],
+    [ "matt",      "Matt",      "mh",  "D"  ],
+    [ "thomas",    "Thomas",    "tb",  "SF" ],
+    [ "david",     "David",     "ds",  "SF" ],
+    [ "jordi",     "Jordi",     "jn",  "SF" ],
+    [ "christian", "Christian", "cn",  "SF" ],
+    [ "johan",     "Johan",     "ji",  "SF" ],
+    [ "dan",       "Dan",       "dp",  null ],
+    [ "chris",     "Chris",     "ct",  null ],
+    [ "jo",        "Jo",        "jw",  null ]
+  ];
+
+
+// browser-to-browser relay
 io.sockets.on('connection', function (socket) {
-  socket.emit('init', { 'state': pairingState });
+  socket.emit('init', {
+      'state': pairingState,
+      'personData': personData
+  });
   socket.on('pair', function(data) {
     removeHashEntryByValue(pairingState, data.person);
     pairingState[data.target] = data.person;

@@ -22,6 +22,60 @@ var dragWatcher = null;
 
 
 
+function initialPageRender(data) {
+  var html = '';
+
+  html += '<div class="reset-button" tabindex="1">Reset</div>';
+  html += '<table>';
+  var pairs = (data.length / 2) + 2;
+  for (var i=0; i < pairs; i++) {
+    html += '<tr><td id="pA' + i +'">&nbsp;</td>';
+    html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
+  }
+  html += '</table>\n';
+
+  for (var i=0; i < data.length; i++) {
+    var id=data[i][0], name=data[i][1], location=data[i][3];
+    html += '<div id="' + id + '" class="person">';
+
+    if (location) {
+      html += '<div class="where">' + location + '</div>';
+    }
+
+    html += name + '</div>';
+  }
+
+  $('#content').html(html);
+  resetPersonPositions();
+  $('.reset-button').click(function() {
+    resetPersonPositions();
+    socket.emit('reset', {});
+  });
+
+  $('body').droppable({
+    drop: function(event, ui) {
+      doUnpair(ui.draggable[0]);
+    }
+  });
+
+  $('td').droppable({
+    drop: function(event, ui) {
+      var person = ui.draggable.get(0);
+      if (putThisIntoThat(person.id, this.id)) {
+	socket.emit('pair', {
+	    person: person.id,
+	    target: this.id
+	});
+      } else {
+        person.style.top = dragstartPosition.top;
+        person.style.left = dragstartPosition.left;
+        sendUnpair(person);
+      }
+    }
+  });
+}
+
+
 function onDragStart(event, ui) {
   dragstartPosition = {
     top: ui.originalPosition.top,
@@ -106,6 +160,7 @@ function doMove(data) {
 
 var socket = io.connect('/');
 socket.on('init', function (data) {
+  initialPageRender(data.personData);
   $.each(data['state'], function(target, person) {
     putThisIntoThat(person, target);
   });
@@ -122,76 +177,4 @@ socket.on('unpair', function (data) {
 });
 socket.on('move', function (data) {
   doMove(data);
-});
-
-
-$(function() {
-  var html = '';
-  var data = [
-    [ "mark",      "Mark",      "mm",  "D"  ],
-    [ "nick",      "Nick",      "nrs", "D"  ],
-    [ "glen",      "Glen",      "gi",  null ],
-    [ "lewis",     "Lewis",     "lh",  "D"  ],
-    [ "chad",      "Chad",      "caw", null ],
-    [ "alex",      "Alex",      "aj",  "D"  ],
-    [ "matt",      "Matt",      "mh",  "D"  ],
-    [ "thomas",    "Thomas",    "tb",  "SF" ],
-    [ "david",     "David",     "ds",  "SF" ],
-    [ "jordi",     "Jordi",     "jn",  "SF" ],
-    [ "christian", "Christian", "cn",  "SF" ],
-    [ "johan",     "Johan",     "ji",  "SF" ],
-    [ "dan",       "Dan",       "dp",  null ],
-    [ "chris",     "Chris",     "ct",  null ],
-    [ "jo",        "Jo",        "jw",  null ]
-  ];
-
-
-  html += '<div class="reset-button" tabindex="1">Reset</div>';
-  html += '<table>';
-  var pairs = (data.length / 2) + 2;
-  for (var i=0; i < pairs; i++) {
-    html += '<tr><td id="pA' + i +'">&nbsp;</td>';
-    html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
-  }
-  html += '</table>\n';
-
-  for (var i=0; i < data.length; i++) {
-    var id=data[i][0], name=data[i][1], location=data[i][3];
-    html += '<div id="' + id + '" class="person">';
-
-    if (location) {
-      html += '<div class="where">' + location + '</div>';
-    }
-
-    html += name + '</div>';
-  }
-
-  $('#content').html(html);
-  resetPersonPositions();
-  $('.reset-button').click(function() {
-    resetPersonPositions();
-    socket.emit('reset', {});
-  });
-
-  $('body').droppable({
-    drop: function(event, ui) {
-      doUnpair(ui.draggable[0]);
-    }
-  });
-
-  $('td').droppable({
-    drop: function(event, ui) {
-      var person = ui.draggable.get(0);
-      if (putThisIntoThat(person.id, this.id)) {
-	socket.emit('pair', {
-	    person: person.id,
-	    target: this.id
-	});
-      } else {
-        person.style.top = dragstartPosition.top;
-        person.style.left = dragstartPosition.left;
-        sendUnpair(person);
-      }
-    }
-  });
 });
