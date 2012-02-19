@@ -18,6 +18,28 @@ GFDLv1.3), and bug reporting uses GitHub Issues.  The development
 roadmap is located in Pivotal Tracker at:
 https://www.pivotaltracker.com/projects/481767
 
+
+## Installing ##
+
+To install PairMatic for development or to run a server from your
+local host:
+
+        git clone git://github.com/gleneivey/pairmatic.git
+        cd pairmatic
+        npm install
+
+
+## Running ##
+
+Start a PairMatic server by going to the directory where you installed
+it and executing:
+
+        npm start
+
+Once running, you should be able to access PairMatic by directing your
+browser to `[http://localhost/](http://localhost/)`
+
+
 ----------------------------------------------------------------
 
     Permission is granted to copy, distribute and/or modify this

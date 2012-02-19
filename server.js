@@ -27,7 +27,7 @@ function handler (req, res) {
   if (url == '/') { url = '/index.html'; }
 console.log(__dirname);
 console.log(url);
-  fs.readFile(__dirname + '/../client' + url,
+  fs.readFile(__dirname + '/client' + url,
       function (err, data) {
 	if (err) {
 	  res.writeHead(500);
