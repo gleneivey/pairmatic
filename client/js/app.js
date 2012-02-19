@@ -44,10 +44,20 @@ function resetPersonPositions() {
   });
 }
 
+function removeHashEntryByValue(h, v){
+  for (var k in h) {
+    if (h[k] == v) {
+      delete h[k];
+    }
+  }
+}
+
 function putThisIntoThat(person, target) {
   if (pairingState[target]) {
     return false;
   }
+
+  removeHashEntryByValue(pairingState, person);
   pairingState[target] = person;
 
   var td_position = $('#' + target).position();
@@ -58,12 +68,17 @@ function putThisIntoThat(person, target) {
   return true;
 }
 
-
+function doUnpair(elem) {
+  var id = elem.id;
+  removeHashEntryByValue(pairingState, id);
+  socket.emit('unpair', {
+      person: id,
+      top: elem.style.top,
+      left: elem.style.left
+   });
+}
 
 var socket = io.connect('/');
-socket.on('drop', function (data) {
-  putThisIntoThat(data.person, data.target);
-});
 socket.on('init', function (data) {
   $.each(data['state'], function(target, person) {
     putThisIntoThat(person, target);
@@ -71,6 +86,15 @@ socket.on('init', function (data) {
 });
 socket.on('reset', function () {
   resetPersonPositions();
+});
+socket.on('pair', function (data) {
+  putThisIntoThat(data.person, data.target);
+});
+socket.on('unpair', function (data) {
+  removeHashEntryByValue(pairingState, data.person);
+  person = $('#' + data.person).get(0);
+  person.style.top = data.top;
+  person.style.left = data.left;
 });
 
 
@@ -122,18 +146,24 @@ $(function() {
     socket.emit('reset', {});
   });
 
+  $('body').droppable({
+    drop: function(event, ui) {
+      doUnpair(ui.draggable[0]);
+    }
+  });
 
   $('td').droppable({
     drop: function(event, ui) {
       var person = ui.draggable.get(0);
       if (putThisIntoThat(person.id, this.id)) {
-	socket.emit('drop', {
+	socket.emit('pair', {
 	    person: person.id,
 	    target: this.id
 	});
       } else {
         person.style.top = dragstartPosition.top;
         person.style.left = dragstartPosition.left;
+        sendUnpair(person);
       }
     }
   });

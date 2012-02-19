@@ -16,6 +16,16 @@
 // see <http://www.gnu.org/licenses/>.
 
 
+function removeHashEntryByValue(h, v){
+  for (var k in h) {
+    if (h[k] == v) {
+      delete h[k];
+    }
+  }
+}
+
+
+
 var
   app = require('http').createServer(handler),
   io = require('socket.io').listen(app),
@@ -46,9 +56,14 @@ function handler (req, res) {
 var pairingState = {};
 io.sockets.on('connection', function (socket) {
   socket.emit('init', { 'state': pairingState });
-  socket.on('drop', function(data) {
+  socket.on('pair', function(data) {
+    removeHashEntryByValue(pairingState, data.person);
     pairingState[data.target] = data.person;
-    socket.broadcast.emit('drop', data);
+    socket.broadcast.emit('pair', data);
+  });
+  socket.on('unpair', function(data) {
+    removeHashEntryByValue(pairingState, data.person);
+    socket.broadcast.emit('unpair', data);
   });
   socket.on('reset', function(){
     pairingState = {};
