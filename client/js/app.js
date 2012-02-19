@@ -16,10 +16,24 @@
 // see <http://www.gnu.org/licenses/>.
 
 
+var pairingState = {};
+var dragstartPosition = {};
+
+function storeDragstartPosition(event, ui) {
+  dragstartPosition = {
+    top: ui.originalPosition.top,
+    left: ui.originalPosition.left
+  };
+}
+
 function resetPersonPositions() {
+  pairingState = {};
+
   var x = 10;
   var y = 80;
-  $('.person').draggable().each(function() {
+  $('.person').draggable({
+    start: storeDragstartPosition
+  }).each(function() {
     this.style.left = x;
     this.style.top = y;
     x += 90;
@@ -31,24 +45,28 @@ function resetPersonPositions() {
 }
 
 function putThisIntoThat(person, target) {
-  var td_position = $(target).offset();
+  if (pairingState[target]) {
+    return false;
+  }
+  pairingState[target] = person;
+
+  var td_position = $('#' + target).offset();
+  person = $('#' + person).get(0);
   person.style.top = td_position.top + 10;
   person.style.left = td_position.left + 15;
+
+  return true;
 }
 
 
 
 var socket = io.connect('/');
 socket.on('drop', function (data) {
-  putThisIntoThat(
-    $('#' + data.person).get(0),
-    $('#' + data.target).get(0)    );
+  putThisIntoThat(data.person, data.target);
 });
 socket.on('init', function (data) {
   $.each(data['state'], function(target, person) {
-    putThisIntoThat(
-      $('#' + person).get(0),
-      $('#' + target).get(0)    );
+    putThisIntoThat(person, target);
   });
 });
 socket.on('reset', function () {
@@ -108,11 +126,15 @@ $(function() {
   $('td').droppable({
     drop: function(event, ui) {
       var person = ui.draggable.get(0);
-      putThisIntoThat(person, this);
-      socket.emit('drop', {
-	  person: person.id,
-	  target: this.id
-      });
+      if (putThisIntoThat(person.id, this.id)) {
+	socket.emit('drop', {
+	    person: person.id,
+	    target: this.id
+	});
+      } else {
+        person.style.top = dragstartPosition.top;
+        person.style.left = dragstartPosition.left;
+      }
     }
   });
 });
