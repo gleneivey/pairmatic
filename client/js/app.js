@@ -16,25 +16,45 @@
 // see <http://www.gnu.org/licenses/>.
 
 
-function put_this_into_that(person, target) {
+function resetPersonPositions() {
+  var x = 10;
+  var y = 80;
+  $('.person').draggable().each(function() {
+    this.style.left = x;
+    this.style.top = y;
+    x += 90;
+    if (x >= 400) {
+      y += 90;
+      x = 10;
+    }
+  });
+}
+
+function putThisIntoThat(person, target) {
   var td_position = $(target).offset();
   person.style.top = td_position.top + 10;
   person.style.left = td_position.left + 15;
 }
 
+
+
 var socket = io.connect('/');
 socket.on('drop', function (data) {
-  put_this_into_that(
+  putThisIntoThat(
     $('#' + data.person).get(0),
     $('#' + data.target).get(0)    );
 });
 socket.on('init', function (data) {
   $.each(data['state'], function(target, person) {
-    put_this_into_that(
+    putThisIntoThat(
       $('#' + person).get(0),
       $('#' + target).get(0)    );
   });
 });
+socket.on('reset', function () {
+  resetPersonPositions();
+});
+
 
 $(function() {
   var html = '';
@@ -57,6 +77,7 @@ $(function() {
   ];
 
 
+  html += '<div class="reset-button" tabindex="1">Reset</div>';
   html += '<table>';
   var pairs = (data.length / 2) + 2;
   for (var i=0; i < pairs; i++) {
@@ -77,24 +98,17 @@ $(function() {
   }
 
   $('body').html(html);
-
-
-  var x = 10;
-  var y = 80;
-  $('.person').draggable().each(function() {
-    this.style.left = x;
-    this.style.top = y;
-    x += 90;
-    if (x >= 400) {
-      y += 90;
-      x = 10;
-    }
+  resetPersonPositions();
+  $('.reset-button').click(function() {
+    resetPersonPositions();
+    socket.emit('reset', {});
   });
+
 
   $('td').droppable({
     drop: function(event, ui) {
       var person = ui.draggable.get(0);
-      put_this_into_that(person, this);
+      putThisIntoThat(person, this);
       socket.emit('drop', {
 	  person: person.id,
 	  target: this.id

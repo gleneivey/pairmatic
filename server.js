@@ -50,4 +50,8 @@ io.sockets.on('connection', function (socket) {
     pairingState[data.target] = data.person;
     socket.broadcast.emit('drop', data);
   });
+  socket.on('reset', function(){
+    pairingState = {};
+    socket.broadcast.emit('reset', {});
+  });
 });
