@@ -37,7 +37,7 @@ it and executing:
         npm start
 
 Once running, you should be able to access PairMatic by directing your
-browser to `[http://localhost/](http://localhost/)`
+browser to [http://localhost/](http://localhost/)
 
 
 ----------------------------------------------------------------
