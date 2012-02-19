@@ -16,9 +16,27 @@
  *  see <http://www.gnu.org/licenses/>.
  */
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#outer-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 850px;
+  height: 4000px;
+  padding-top: 15px;
+}
+
+#content {
+  position: absolute;  
+  width: 850px;
+}
 
 .person {
   position: absolute;
+  cursor: pointer;
   width: 70px;
   height: 50px;
   background-color: white;
@@ -52,7 +70,7 @@ td {
   position: absolute;
   right: 0px;
 
-  margin-right: 90px;
+  margin-right: 83px;
   margin-bottom: 20px;
   text-align: center;
 

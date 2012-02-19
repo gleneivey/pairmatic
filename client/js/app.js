@@ -50,7 +50,7 @@ function putThisIntoThat(person, target) {
   }
   pairingState[target] = person;
 
-  var td_position = $('#' + target).offset();
+  var td_position = $('#' + target).position();
   person = $('#' + person).get(0);
   person.style.top = td_position.top + 10;
   person.style.left = td_position.left + 15;
@@ -115,7 +115,7 @@ $(function() {
     html += name + '</div>';
   }
 
-  $('body').html(html);
+  $('#content').html(html);
   resetPersonPositions();
   $('.reset-button').click(function() {
     resetPersonPositions();
