@@ -54,21 +54,21 @@ function handler (req, res) {
 
 var pairingState = {};
 var personData = [
-    [ "mark",      "Mark",      "mm",  "D"  ],
-    [ "nick",      "Nick",      "nrs", "D"  ],
-    [ "glen",      "Glen",      "gi",  null ],
-    [ "lewis",     "Lewis",     "lh",  "D"  ],
-    [ "chad",      "Chad",      "caw", null ],
-    [ "alex",      "Alex",      "aj",  "D"  ],
-    [ "matt",      "Matt",      "mh",  "D"  ],
-    [ "thomas",    "Thomas",    "tb",  "SF" ],
-    [ "david",     "David",     "ds",  "SF" ],
-    [ "jordi",     "Jordi",     "jn",  "SF" ],
-    [ "christian", "Christian", "cn",  "SF" ],
-    [ "johan",     "Johan",     "ji",  "SF" ],
-    [ "dan",       "Dan",       "dp",  null ],
-    [ "chris",     "Chris",     "ct",  null ],
-    [ "jo",        "Jo",        "jw",  null ]
+    [ "mark",      "Mark",      "mm",  "D",  null ],
+    [ "nick",      "Nick",      "nrs", "D",  "seemiller@pivotallabs.com" ],
+    [ "glen",      "Glen",      "gi",  null, "givey@pivotallabs.com" ],
+    [ "lewis",     "Lewis",     "lh",  "D",  null ],
+    [ "chad",      "Chad",      "caw", null, "chad@pivotallabs.com" ],
+    [ "alex",      "Alex",      "aj",  "D",  null ],
+    [ "matt",      "Matt",      "mh",  "D",  null ],
+    [ "thomas",    "Thomas",    "tb",  "SF", "thomas@pivotallabs.com" ],
+    [ "david",     "David",     "ds",  "SF", "stevend@pivotallabs.com" ],
+    [ "jordi",     "Jordi",     "jn",  "SF", null ],
+    [ "christian", "Christian", "cn",  "SF", "cniles@pivotallabs.com" ],
+    [ "johan",     "Johan",     "ji",  "SF", null ],
+    [ "dan",       "Dan",       "dp",  null, "dan@pivotallabs.com" ],
+    [ "chris",     "Chris",     "ct",  null, "ctong@pivotallabs.com" ],
+    [ "jo",        "Jo",        "jw",  null, null ]
   ];
 
 

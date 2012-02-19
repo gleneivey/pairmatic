@@ -30,7 +30,7 @@ body {
 }
 
 #content {
-  position: absolute;  
+  position: absolute;
   width: 850px;
 }
 
@@ -38,20 +38,34 @@ body {
   position: absolute;
   cursor: pointer;
   width: 70px;
-  height: 50px;
-  background-color: white;
-  border: 2px solid #eee;
+  height: 70px;
   text-align: center;
-  line-height: 50px;
+  border: 2px solid #eee;
+  background-color: #999;
 }
 
-.where {
+.person img {
   position: absolute;
+  z-index: 3;
+  top: 2px;
+  left: 2px;
+}
+
+.person span {
+  position: relative;
+  z-index: 10;
+  color: #fff;
+  line-height: 127px;
+}
+
+.person .where {
+  position: absolute;
+  z-index: 6;
   top: 0px;
   right: 0px;
   font-size: 50%;
-  margin-top: -16px;
-  margin-right: 3px
+  padding: 2px;
+  background-color: #eee;
 }
 
 table {
@@ -62,7 +76,7 @@ table {
 
 td {
   width: 100px;
-  height: 75px;
+  height: 95px;
   border: 1px solid #22a;
 }
 

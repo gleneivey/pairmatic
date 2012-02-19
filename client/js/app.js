@@ -35,15 +35,22 @@ function initialPageRender(data) {
   html += '</table>\n';
 
   for (var i=0; i < data.length; i++) {
-    var id=data[i][0], name=data[i][1], location=data[i][3];
+    var id=data[i][0], name=data[i][1], location=data[i][3], email=data[i][4];
     html += '<div id="' + id + '" class="person">';
+
+    if (email) {
+      html+= '<img src="http://www.gravatar.com/avatar/' +
+          hex_md5(email) +
+          '?s=66"/>';
+    }
 
     if (location) {
       html += '<div class="where">' + location + '</div>';
     }
 
-    html += name + '</div>';
+    html += '<span>' + name + '</span></div>';
   }
+
 
   $('#content').html(html);
   resetPersonPositions();
