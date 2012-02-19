@@ -28,6 +28,13 @@ socket.on('drop', function (data) {
     $('#' + data.person).get(0),
     $('#' + data.target).get(0)    );
 });
+socket.on('init', function (data) {
+  $.each(data['state'], function(target, person) {
+    put_this_into_that(
+      $('#' + person).get(0),
+      $('#' + target).get(0)    );
+  });
+});
 
 $(function() {
   var html = '';
