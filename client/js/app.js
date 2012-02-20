@@ -41,9 +41,8 @@ function initialPageRender(data) {
     html += '<div id="' + id + '" class="person">';
 
     if (email) {
-      html+= '<img src="http://www.gravatar.com/avatar/' +
-          hex_md5(email) +
-          '?s=66"/>';
+      var h = /@/.test(email) ? hex_md5(email) : email;
+      html+= '<img src="http://www.gravatar.com/avatar/' + h + '?s=66"/>';
     }
 
     if (location) {

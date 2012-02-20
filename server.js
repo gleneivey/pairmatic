@@ -57,19 +57,19 @@ var pairingState = {};
 var pairNotes = {};
 var personData = [
     [ "mark",      "Mark",      "mm",  "D",  null ],
-    [ "nick",      "Nick",      "nrs", "D",  "seemiller@pivotallabs.com" ],
+    [ "nick",      "Nick",      "nrs", "D",  "a6843e2d31781a378deb73b6d8656e26" ],
     [ "glen",      "Glen",      "gi",  null, "givey@pivotallabs.com" ],
     [ "lewis",     "Lewis",     "lh",  "D",  null ],
-    [ "chad",      "Chad",      "caw", null, "chad@pivotallabs.com" ],
+    [ "chad",      "Chad",      "caw", null, "68613e8fd136bfddcdedd16b0bfa671f" ],
     [ "alex",      "Alex",      "aj",  "D",  null ],
     [ "matt",      "Matt",      "mh",  "D",  null ],
-    [ "thomas",    "Thomas",    "tb",  "SF", "thomas@pivotallabs.com" ],
-    [ "david",     "David",     "ds",  "SF", "stevend@pivotallabs.com" ],
+    [ "thomas",    "Thomas",    "tb",  "SF", "4a4dd769149baedf9212e7af94c6c11c" ],
+    [ "david",     "David",     "ds",  "SF", "6da8384aa1243b708fafd402922b478e" ],
     [ "jordi",     "Jordi",     "jn",  "SF", null ],
-    [ "christian", "Christian", "cn",  "SF", "cniles@pivotallabs.com" ],
+    [ "christian", "Christian", "cn",  "SF", "83d5299619b88c68e6360e4d05d1535f" ],
     [ "johan",     "Johan",     "ji",  "SF", null ],
-    [ "dan",       "Dan",       "dp",  null, "dan@pivotallabs.com" ],
-    [ "chris",     "Chris",     "ct",  null, "ctong@pivotallabs.com" ],
+    [ "dan",       "Dan",       "dp",  null, "ed2a327e601de8f01d9d0d728c480fa4" ],
+    [ "chris",     "Chris",     "ct",  null, "8a858ed4ebd2d2809c38b30b1135fd41" ],
     [ "jo",        "Jo",        "jw",  null, null ]
   ];
 
