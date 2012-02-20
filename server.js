@@ -54,6 +54,7 @@ function handler (req, res) {
 
 
 var pairingState = {};
+var pairNotes = {};
 var personData = [
     [ "mark",      "Mark",      "mm",  "D",  null ],
     [ "nick",      "Nick",      "nrs", "D",  "seemiller@pivotallabs.com" ],
@@ -77,6 +78,7 @@ var personData = [
 io.sockets.on('connection', function (socket) {
   socket.emit('init', {
       'state': pairingState,
+      'notes': pairNotes,
       'personData': personData
   });
   socket.on('pair', function(data) {
@@ -90,7 +92,12 @@ io.sockets.on('connection', function (socket) {
   });
   socket.on('reset', function(){
     pairingState = {};
+    pairNotes = {};
     socket.broadcast.emit('reset', {});
+  });
+  socket.on('note', function(data){
+    pairNotes[data.target] = data.note;
+    socket.broadcast.emit('note', data);
   });
   socket.on('move', function(data){
     socket.broadcast.emit('move', data);

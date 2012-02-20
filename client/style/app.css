@@ -80,6 +80,21 @@ td {
   border: 1px solid #22a;
 }
 
+.notes {
+  text-align: right;
+  border: none;
+}
+textarea {
+  text-align: right;
+  width: 150px;
+  margin-top: 6px;
+  border: 1px dashed #eee;
+}
+
+.notes img {
+  height: 20px;
+}
+
 .reset-button {
   position: absolute;
   right: 0px;
@@ -101,7 +116,8 @@ td {
 }
 
 #pear {
-  float: right;
+  position: absolute;
   height: 70px;
-  margin-right: 40px;
+  top: -13px;
+  left: 384px;
 }

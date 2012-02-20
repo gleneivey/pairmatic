@@ -29,7 +29,8 @@ function initialPageRender(data) {
   html += '<table>';
   var pairs = (data.length / 2) + 2;
   for (var i=0; i < pairs; i++) {
-    html += '<tr><td id="pA' + i +'">&nbsp;</td>';
+    html += '<tr><td id="notes' + i + '" class="notes"></td>'
+    html +=     '<td id="pA' + i +'">&nbsp;</td>';
     html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
   }
   html += '</table>\n';
@@ -54,8 +55,12 @@ function initialPageRender(data) {
 
 
   $('#content').html(html);
+
+
   resetPersonPositions();
+  setupNoteIcons();
   $('.reset-button').click(function() {
+    resetData();
     resetPersonPositions();
     socket.emit('reset', {});
   });
@@ -83,6 +88,28 @@ function initialPageRender(data) {
   });
 }
 
+function setupNoteIcons() {
+  $('.notes').html('<img src="/vendor/notes.png">');
+  $('.notes img').click(function() {
+    var td = $(this).parent();
+    td.html('<textarea rows="4" />');
+    var textarea = $('textarea', td);
+    textarea.focus().change(sendNoteUpdate).keyup(sendNoteUpdate);
+  });
+}
+
+
+function sendNoteUpdate(event, ui) {
+  socket.emit('note', {
+    target: $(this).parent().get(0).id,
+    note: $(this).val()
+  });
+}
+
+function setNote(target, note) {
+  var td = $('#' + target);
+  td.html('<textarea rows="4">' + note + '</textarea>');
+}
 
 function onDragStart(event, ui) {
   dragstartPosition = {
@@ -107,9 +134,13 @@ function onDragStop(event, ui) {
   dragWatcher = null;
 }
 
-function resetPersonPositions() {
+function resetData() {
   pairingState = {};
+  dragstartPosition = {};
+  setupNoteIcons();
+}
 
+function resetPersonPositions() {
   var x = 10;
   var y = 80;
   $('.person').draggable({
@@ -119,7 +150,7 @@ function resetPersonPositions() {
     this.style.left = x;
     this.style.top = y;
     x += 90;
-    if (x >= 400) {
+    if (x >= 300) {
       y += 90;
       x = 10;
     }
@@ -167,22 +198,29 @@ function doMove(data) {
 }
 
 var socket = io.connect('/');
-socket.on('init', function (data) {
+socket.on('init', function(data) {
   initialPageRender(data.personData);
+  $.each(data['notes'], function(target, note) {
+    setNote(target, note);
+  });
   $.each(data['state'], function(target, person) {
     putThisIntoThat(person, target);
   });
 });
-socket.on('reset', function () {
+socket.on('reset', function() {
+  resetData();
   resetPersonPositions();
 });
-socket.on('pair', function (data) {
+socket.on('pair', function(data) {
   putThisIntoThat(data.person, data.target);
 });
-socket.on('unpair', function (data) {
+socket.on('unpair', function(data) {
   removeHashEntryByValue(pairingState, data.person);
   doMove(data);
 });
-socket.on('move', function (data) {
+socket.on('move', function(data) {
   doMove(data);
+});
+socket.on('note', function(data) {
+  setNote(data.target, data.note);
 });
