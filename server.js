@@ -38,6 +38,7 @@ app.listen(80);
 function handler (req, res) {
   var url = req.url;
   if (url == '/') { url = '/index.html'; }
+  if (url == '/favicon.ico') { url = '/vendor/favicon.ico'; }
   fs.readFile(__dirname + '/client' + url,
       function (err, data) {
 	if (err) {

@@ -33,6 +33,7 @@ function initialPageRender(data) {
     html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
   }
   html += '</table>\n';
+  html += '<img id="pear" src="/vendor/pear.png" />';
 
   for (var i=0; i < data.length; i++) {
     var id=data[i][0], name=data[i][1], location=data[i][3], email=data[i][4];

@@ -99,3 +99,9 @@ td {
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
+
+#pear {
+  float: right;
+  height: 70px;
+  margin-right: 40px;
+}
