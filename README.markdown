@@ -24,7 +24,15 @@ https://www.pivotaltracker.com/projects/481767
 To install PairMatic for development or to run a server from your
 local host:
 
-        ## have node.js installed
+        # install node.js if you haven't before
+        wget http://nodejs.org/dist/v0.6.11/node-v0.6.11.tar.gz
+        tar -xzf node-v0.6.11.tar.gz
+        cd node-v0.6.11
+        ./configure
+        make
+        make install        # possibly with sudo prefix
+        
+        # install PairMatic
         git clone git://github.com/gleneivey/pairmatic.git
         cd pairmatic
         npm install
@@ -35,7 +43,7 @@ local host:
 Start a PairMatic server by going to the directory where you installed
 it and executing:
 
-        npm start        # possibly with sudo prefix
+        npm start           # possibly with sudo prefix
 
 Once running, you should be able to access PairMatic by directing your
 browser to [http://localhost/](http://localhost/)
