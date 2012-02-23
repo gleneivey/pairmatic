@@ -115,9 +115,19 @@ textarea {
   border-radius: 8px;
 }
 
-#pear {
+#pear, #stilton {
   position: absolute;
+  cursor: pointer;
+}
+
+#pear {
   height: 70px;
   top: -13px;
   left: 384px;
+}
+
+#stilton {
+  height: 64px;
+  top: -8px;
+  left: 300px;
 }

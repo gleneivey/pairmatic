@@ -34,7 +34,8 @@ function initialPageRender(data) {
     html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
   }
   html += '</table>\n';
-  html += '<img id="pear" src="/vendor/pear.png" />';
+  html += '<img id="pear" class="food" src="/vendor/pear.png" />';
+  html += '<img id="stilton" class="food" src="/vendor/stilton.png" />';
 
   for (var i=0; i < data.length; i++) {
     var id=data[i][0], name=data[i][1], location=data[i][3], email=data[i][4];
@@ -140,6 +141,11 @@ function resetData() {
 }
 
 function resetPersonPositions() {
+  $('.food').draggable({
+    start: onDragStart,
+    stop: onDragStop
+  });
+
   var x = 10;
   var y = 80;
   $('.person').draggable({
@@ -198,6 +204,7 @@ function doMove(data) {
 
 var socket = io.connect('/');
 socket.on('init', function(data) {
+  console.log(data);
   initialPageRender(data.personData);
   $.each(data['notes'], function(target, note) {
     setNote(target, note);
