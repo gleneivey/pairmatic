@@ -30,8 +30,8 @@ function initialPageRender(data) {
   var pairs = (data.length / 2) + 2;
   for (var i=0; i < pairs; i++) {
     html += '<tr><td id="notes' + i + '" class="notes"></td>'
-    html +=     '<td id="pA' + i +'">&nbsp;</td>';
-    html +=     '<td id="pB' + i +'">&nbsp;</td></tr>';
+    html +=     '<td id="pA' + i +'" class="pair">&nbsp;</td>';
+    html +=     '<td id="pB' + i +'" class="pair">&nbsp;</td></tr>';
   }
   html += '</table>\n';
   html += '<img id="pear" class="food" src="/vendor/pear.png" />';
@@ -71,8 +71,10 @@ function initialPageRender(data) {
     }
   });
 
-  $('td').droppable({
+  $('td.pair').droppable({
     drop: function(event, ui) {
+      if (!ui.draggable.hasClass('person')){ return; }
+
       var person = ui.draggable.get(0);
       if (putThisIntoThat(person.id, this.id)) {
 	socket.emit('pair', {
@@ -82,7 +84,7 @@ function initialPageRender(data) {
       } else {
         person.style.top = dragstartPosition.top;
         person.style.left = dragstartPosition.left;
-        sendUnpair(person);
+        doUnpair(person);
       }
     }
   });
