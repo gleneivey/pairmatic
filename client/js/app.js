@@ -204,7 +204,7 @@ function doMove(data) {
 
 var socket = io.connect('/');
 socket.on('init', function(data) {
-  console.log(data);
+  console.log(JSON.stringify(data));
   initialPageRender(data.personData);
   $.each(data['notes'], function(target, note) {
     setNote(target, note);
