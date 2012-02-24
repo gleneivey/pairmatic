@@ -27,11 +27,21 @@ function initialPageRender(data) {
 
   html += '<div class="reset-button" tabindex="1">Reset</div>';
   html += '<table>';
-  var pairs = (data.length / 2) + 2;
-  for (var i=0; i < pairs; i++) {
-    html += '<tr><td id="notes' + i + '" class="notes"></td>'
-    html +=     '<td id="pA' + i +'" class="pair">&nbsp;</td>';
-    html +=     '<td id="pB' + i +'" class="pair">&nbsp;</td></tr>';
+  var rows = (data.length / 4) + 1;
+  for (var i=0; i < rows; i++) {
+    var col = i*2;
+    html += '<tr>';
+    html +=   '<td id="notes' + col + '" class="notes left"></td>'
+    html +=   '<td id="pA' + col +'" class="pair">&nbsp;</td>';
+    html +=   '<td id="pB' + col +'" class="pair">&nbsp;</td>';
+
+    col++;
+    html +=   '<td class="pair-filler">&nbsp;</td>'
+
+    html +=   '<td id="pA' + col +'" class="pair">&nbsp;</td>';
+    html +=   '<td id="pB' + col +'" class="pair">&nbsp;</td>';
+    html +=   '<td id="notes' + col + '" class="notes right"></td>'
+    html += '</tr>';
   }
   html += '</table>\n';
   html += '<img id="pear" class="food" src="/vendor/pear.png" />';
@@ -148,8 +158,8 @@ function resetPersonPositions() {
     stop: onDragStop
   });
 
-  var x = 10;
-  var y = 80;
+  var x = 0;
+  var y = 0;
   $('.person').draggable({
     start: onDragStart,
     stop: onDragStop
@@ -159,7 +169,7 @@ function resetPersonPositions() {
     x += 90;
     if (x >= 300) {
       y += 90;
-      x = 10;
+      x = 0;
     }
   });
 }

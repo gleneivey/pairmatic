@@ -24,14 +24,14 @@ body {
 #outer-wrapper {
   margin-left: auto;
   margin-right: auto;
-  width: 850px;
+  width: 1250px;
   height: 4000px;
   padding-top: 15px;
 }
 
 #content {
   position: absolute;
-  width: 850px;
+  width: 1250px;
 }
 
 .person {
@@ -79,16 +79,31 @@ td {
   height: 95px;
   border: 1px solid #22a;
 }
+td.pair-filler {
+  width: 20px;
+}
 
-.notes {
-  text-align: right;
+td.notes, td.pair-filler {
   border: none;
 }
-textarea {
+td.notes.left {
   text-align: right;
+}
+td.notes.right {
+  text-align: left;
+  width: 150px;
+}
+
+textarea {
   width: 150px;
   margin-top: 6px;
   border: 1px dashed #eee;
+}
+td.notes.left textarea {
+  text-align: right;
+}
+td.notes.right textarea {
+  text-align: left;
 }
 
 .notes img {
@@ -97,9 +112,8 @@ textarea {
 
 .reset-button {
   position: absolute;
-  right: 0px;
+  right: 353px;
 
-  margin-right: 83px;
   margin-bottom: 20px;
   text-align: center;
 
@@ -115,19 +129,19 @@ textarea {
   border-radius: 8px;
 }
 
-#pear, #stilton {
+.food {
   position: absolute;
   cursor: pointer;
 }
 
 #pear {
   height: 70px;
-  top: -13px;
   left: 384px;
+  top: 0px;
 }
 
 #stilton {
   height: 64px;
-  top: -8px;
-  left: 300px;
+  left: 390;
+  top: 80px;
 }
