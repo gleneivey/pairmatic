@@ -55,6 +55,7 @@ function handler (req, res) {
 
 var pairingState = {};
 var pairNotes = {};
+var discussionItems = {};
 var personData = [
     [ "mark",      "Mark",      "mm",  "D",  null ],
     [ "nick",      "Nick",      "nrs", "D",  "a6843e2d31781a378deb73b6d8656e26" ],
@@ -79,6 +80,7 @@ io.sockets.on('connection', function (socket) {
   socket.emit('init', {
       'state': pairingState,
       'notes': pairNotes,
+      'discussionItems': discussionItems,
       'personData': personData
   });
   socket.on('pair', function(data) {
@@ -93,11 +95,16 @@ io.sockets.on('connection', function (socket) {
   socket.on('reset', function(){
     pairingState = {};
     pairNotes = {};
+    discussionItems = {};
     socket.broadcast.emit('reset', {});
   });
   socket.on('note', function(data){
     pairNotes[data.target] = data.note;
     socket.broadcast.emit('note', data);
+  });
+  socket.on('di', function(data){
+    discussionItems[data.target] = data.item;
+    socket.broadcast.emit('di', data);
   });
   socket.on('move', function(data){
     socket.broadcast.emit('move', data);
