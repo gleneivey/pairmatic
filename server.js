@@ -61,7 +61,7 @@ var personData = [
     [ "glen",      "Glen",      "gi",  null, "givey@pivotallabs.com" ],
     [ "lewis",     "Lewis",     "lh",  "D",  null ],
     [ "chad",      "Chad",      "caw", null, "68613e8fd136bfddcdedd16b0bfa671f" ],
-    [ "alex",      "Alex",      "aj",  "D",  null ],
+    [ "alex",      "Alex",      "aj",  "D",  "181cd2efadf4ee8155ed587e2fffbc5c" ],
     [ "matt",      "Matt",      "mh",  "D",  null ],
     [ "thomas",    "Thomas",    "tb",  "SF", "4a4dd769149baedf9212e7af94c6c11c" ],
     [ "david",     "David",     "ds",  "SF", "6da8384aa1243b708fafd402922b478e" ],
@@ -70,7 +70,7 @@ var personData = [
     [ "johan",     "Johan",     "ji",  "SF", null ],
     [ "dan",       "Dan",       "dp",  null, "ed2a327e601de8f01d9d0d728c480fa4" ],
     [ "chris",     "Chris",     "ct",  null, "8a858ed4ebd2d2809c38b30b1135fd41" ],
-    [ "jo",        "Jo",        "jw",  null, null ]
+    [ "jo",        "Jo",        "jw",  null, "efaa5e89a9fccfaf656dd34673d3e518" ]
   ];
 
 
