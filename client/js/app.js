@@ -49,6 +49,7 @@ function initialPageRender(data) {
   html += '</table>\n';
   html += '<img id="pear" class="food" src="/vendor/pear.png" />';
   html += '<img id="stilton" class="food" src="/vendor/stilton.png" />';
+  html += '<img id="laphroaig" class="food" src="/vendor/laphroaig.png" />';
 
   for (var i=0; i < personData.length; i++) {
     var

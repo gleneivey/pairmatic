@@ -169,7 +169,13 @@ td.notes.right textarea {
 
 #stilton {
   height: 64px;
-  left: 390;
+  left: 390px;
   top: 80px;
+}
+
+#laphroaig {
+  height: 110px;
+  left: 410px;
+  top: 150px;
 }
 
