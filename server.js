@@ -95,7 +95,6 @@ io.sockets.on('connection', function (socket) {
   socket.on('reset', function(){
     pairingState = {};
     pairNotes = {};
-    discussionItems = {};
     socket.broadcast.emit('reset', {});
   });
   socket.on('note', function(data){

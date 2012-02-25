@@ -245,11 +245,6 @@ function resetData() {
   pairingState = {};
   dragstartPosition = {};
   setupNoteIcons();
-  $('.di').each(function() {
-    var $element = $(this);
-    $element.val('');
-    $element.parent().find('img').get(0).style.opacity = 0;
-  });
 }
 
 function resetPersonPositions() {
