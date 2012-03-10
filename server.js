@@ -60,7 +60,7 @@ var personData = [
     [ "mark",      "Mark",      "mm",  "D",  "9e3861569add09d7787c95faadb98388" ],
     [ "nick",      "Nick",      "nrs", "D",  "a6843e2d31781a378deb73b6d8656e26" ],
     [ "glen",      "Glen",      "gi",  null, "givey@pivotallabs.com" ],
-    [ "lewis",     "Lewis",     "lh",  "D",  "8b19fa59d9bbee2f9b55ca7725fe9b3f" ],
+    [ "lewis",     "Lewis",     "lh",  "D",  "620cd525ccfe6f73044251c71e8d26f7" ],
     [ "chad",      "Chad",      "caw", null, "68613e8fd136bfddcdedd16b0bfa671f" ],
     [ "alex",      "Alex",      "aj",  "D",  "181cd2efadf4ee8155ed587e2fffbc5c" ],
     [ "matt",      "Matt",      "mh",  "D",  "208c855e1ed834f1d938e23fe747a549" ],
