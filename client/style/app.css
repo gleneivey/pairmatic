@@ -110,10 +110,7 @@ td.notes.right textarea {
   height: 20px;
 }
 
-.reset-button {
-  position: absolute;
-  right: 353px;
-
+.shuffle-button, .reset-button {
   margin-bottom: 20px;
   text-align: center;
 
@@ -127,6 +124,16 @@ td.notes.right textarea {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
+}
+
+.reset-button {
+  position: absolute;
+  right: 300px;
+}
+
+.shuffle-button {
+  position: absolute;
+  right: 405px;
 }
 
 

@@ -16,18 +16,25 @@
 // see <http://www.gnu.org/licenses/>.
 
 
+var personData = null;
 var pairingState = {};
 var dragstartPosition = {};
 var dragWatcher = null;
 var lastDi = -1;
 
+var ID_INDEX = 0;
+var NAME_INDEX = 1;
+var LOCATION_INDEX = 3;
+var GROUP_INDEX = 4;
+var GROUP_EMAIL = 5;
 
 
 function initialPageRender(data) {
-  var personData = data.personData;
+  personData = data.personData;
   var discussionItems = data.discussionItems;
   var html = '';
 
+  html += '<div class="shuffle-button" tabindex="1">Shuffle</div>';
   html += '<div class="reset-button" tabindex="1">Reset</div>';
   html += '<table>';
   var rows = (personData.length / 4) + 1;
@@ -53,10 +60,11 @@ function initialPageRender(data) {
 
   for (var i=0; i < personData.length; i++) {
     var
-      id=personData[i][0],
-      name=personData[i][1],
-      location=personData[i][3],
-      email=personData[i][4];
+      id = personData[i][0],
+      name = personData[i][1],
+      location = personData[i][3],
+      group = personData[i][4],
+      email = personData[i][5];
 
     html += '<div id="' + id + '" class="person">';
 
@@ -112,11 +120,8 @@ function initialPageRender(data) {
   });
 
   setupNoteIcons();
-  $('.reset-button').click(function() {
-    resetData();
-    resetPersonPositions();
-    socket.emit('reset', {});
-  });
+  $('.shuffle-button').click(function() { doShuffle(); });
+  $('.reset-button').click(function() { doReset(); });
 
   $('body').droppable({
     drop: function(event, ui) {
@@ -129,12 +134,7 @@ function initialPageRender(data) {
       if (!ui.draggable.hasClass('person')){ return; }
 
       var person = ui.draggable.get(0);
-      if (putThisIntoThat(person.id, this.id)) {
-	socket.emit('pair', {
-	    person: person.id,
-	    target: this.id
-	});
-      } else {
+      if (!doPair(person.id, this.id)) {
         person.style.top = dragstartPosition.top;
         person.style.left = dragstartPosition.left;
         doUnpair(person);
@@ -241,6 +241,43 @@ function onDragStop(event, ui) {
   dragWatcher = null;
 }
 
+function doReset() {
+  resetData();
+  resetPersonPositions();
+  socket.emit('reset', {});
+}
+
+function doShuffle() {
+  doReset();
+
+  var tableIndex = 1;
+  var cellIndex = 0;
+  function pairIntoColumnAndIncrement(personId) {
+    var targetId = 'p' + (cellIndex ? 'B' : 'A') + tableIndex;
+    doPair(personId, targetId);
+    if (++cellIndex > 1) {
+      cellIndex = 0;
+      tableIndex += 2;
+    }
+  }
+
+  var rubyPeople = [];
+  $.each(personData, function(i, personDatum) {
+    if (personDatum[GROUP_INDEX] == 'iOS')
+      pairIntoColumnAndIncrement(personDatum[ID_INDEX]);
+    else if (personDatum[GROUP_INDEX] == 'Ruby')
+      rubyPeople.push(personDatum);
+  });
+
+  var tableIndex = 0;
+  var cellIndex = 0;
+  while (rubyPeople.length > 0) {
+    var i = Math.floor(Math.random() * rubyPeople.length);
+    pairIntoColumnAndIncrement(rubyPeople[i][ID_INDEX]);
+    rubyPeople.splice(i, 1);
+  }
+}
+
 function resetData() {
   pairingState = {};
   dragstartPosition = {};
@@ -287,22 +324,36 @@ function putThisIntoThat(person, target) {
   removeHashEntryByValue(pairingState, person);
   pairingState[target] = person;
 
-  var td_position = $('#' + target).position();
+  var tdPosition = $('#' + target).position();
   person = $('#' + person).get(0);
-  person.style.top = td_position.top + 10;
-  person.style.left = td_position.left + 15;
+  person.style.top = tdPosition.top + 10;
+  person.style.left = tdPosition.left + 15;
 
   return true;
 }
 
-function doUnpair(elem) {
-  var id = elem.id;
+function doUnpair(elemOrId) {
+  var id = elemOrId.id ? elemOrId.id : elem;
   removeHashEntryByValue(pairingState, id);
+
+  var elem = $('#' + id).get(0);
   socket.emit('unpair', {
       person: id,
       top: elem.style.top,
       left: elem.style.left
    });
+}
+
+function doPair(personId, boxId){
+  var success = putThisIntoThat(personId, boxId);
+  if (success) {
+    socket.emit('pair', {
+	person: personId,
+	target: boxId
+    });
+  }
+
+  return success;
 }
 
 function doMove(data) {
