@@ -1,7 +1,13 @@
 (function(root) {
-  var pairmatic = root.pairmatic = {};
-  root._ = require('underscore')._;
-  root.Backbone = require('backbone');
+  var pairmatic;
+  if (typeof root.pairmatic == "undefined") {
+    pairmatic = root.pairmatic = {};
+    root._ = require('underscore')._;
+    root.Backbone = require('backbone');
+  }
+  else {
+    pairmatic = root.pairmatic;
+  }
 
   require('../lib/application');
   require('../lib/models/person');
