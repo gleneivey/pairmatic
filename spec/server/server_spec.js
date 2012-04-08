@@ -1,6 +1,6 @@
-describe("server initialization", function() {
-  require('../../server/server');
+require('../../server/server');
 
+describe("server initialization", function() {
   it("creates a top-level PairMatic scope", function() {
     expect(global.pairmatic).toBeDefined();
     expect(pairmatic).toBeDefined();
@@ -17,4 +17,8 @@ describe("server initialization", function() {
     expect(pairmatic.app.people instanceof pairmatic.People).toBeTruthy();
     expect(pairmatic.app.people.length).toBeGreaterThan(10);
   });
+});
+
+describe("serves HTTP requests", function() {
+
 });
