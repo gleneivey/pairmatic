@@ -10,7 +10,7 @@
   "bugs": "https://github.com/gleneivey/pairmatic/issues",
 
   "scripts": {
-    "start": "node fred.js"
+    "start": "node server/server.js"
   },
 
   "repository": {
@@ -25,6 +25,7 @@
     "socket.io": "0.8.7"
   },
   "devDependencies": {
-    "jasmine-node": "1.0.23"
+    "jasmine-node": "git://github.com/gleneivey/jasmine-node",
+    "webdriverjs": "0.5.8"
   }
 }

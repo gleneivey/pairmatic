@@ -1,6 +1,7 @@
 Libraries
 Samples
 node_modules
+tmp
 
 PairMatic-*.tgz
 npm-debug.log

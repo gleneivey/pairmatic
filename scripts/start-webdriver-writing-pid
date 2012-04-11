@@ -1,0 +1,3 @@
+mkdir -p tmp
+java -jar vendor/selenium-server-standalone-2.20.0.jar > tmp/selenium.log 2>&1 &
+echo $! > tmp/selenium.pid
