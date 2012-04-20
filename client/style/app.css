@@ -110,9 +110,10 @@ td.notes.right textarea {
   height: 20px;
 }
 
-.shuffle-button, .reset-button {
+.button {
   margin-bottom: 20px;
   text-align: center;
+  outline: none;
 
   width: 90px;
   line-height: 26px;
@@ -134,6 +135,23 @@ td.notes.right textarea {
 .shuffle-button {
   position: absolute;
   right: 405px;
+}
+
+#timer-button-container {
+  z-index: 10;
+  position: absolute;
+  top: 350px;
+  left: 320px;
+}
+
+
+#clock {
+  position: absolute;
+  top: 274px;
+  left: 276px;
+
+  font-size: 80px;
+  color: blue;
 }
 
 

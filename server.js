@@ -72,16 +72,23 @@ var personData = [
     [ "chris",     "Chris",     "ct",  null, null,   "8a858ed4ebd2d2809c38b30b1135fd41" ],
     [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ]
   ];
+var standupBeforeDuringAfter;
+var standupStartTime;
 
 
 // browser-to-browser relay
 io.sockets.on('connection', function (socket) {
-  socket.emit('init', {
+  var initialData = {
       'state': pairingState,
       'notes': pairNotes,
       'discussionItems': discussionItems,
       'personData': personData
-  });
+  };
+  if (standupBeforeDuringAfter) initialData.standupBeforeDuringAfter = standupBeforeDuringAfter;
+  if (standupStartTime)         initialData.standupStartTime         = standupStartTime;
+  socket.emit('init', initialData);
+
+
   socket.on('pair', function(data) {
     removeHashEntryByValue(pairingState, data.person);
     pairingState[data.target] = data.person;
@@ -94,7 +101,14 @@ io.sockets.on('connection', function (socket) {
   socket.on('reset', function(){
     pairingState = {};
     pairNotes = {};
+    standupBeforeDuringAfter = 'before';
+    standupStartTime = null;
     socket.broadcast.emit('reset', {});
+  });
+  socket.on('timer', function(data){
+    if (data.standupBeforeDuringAfter) standupBeforeDuringAfter = data.standupBeforeDuringAfter;
+    if (data.standupStartTime)         standupStartTime         = data.standupStartTime;
+    socket.broadcast.emit('timer', data);
   });
   socket.on('note', function(data){
     pairNotes[data.target] = data.note;

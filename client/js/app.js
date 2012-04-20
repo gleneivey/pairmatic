@@ -21,6 +21,9 @@ var pairingState = {};
 var dragstartPosition = {};
 var dragWatcher = null;
 var lastDi = -1;
+var standupBeforeDuringAfter = 'before';
+var standupStartTime;
+var clockUpdater;
 
 var ID_INDEX = 0;
 var NAME_INDEX = 1;
@@ -28,14 +31,38 @@ var LOCATION_INDEX = 3;
 var GROUP_INDEX = 4;
 var GROUP_EMAIL = 5;
 
+var STANDUP_TIME;
+(function() {
+  var time = new Date('1/1/2012 09:30 MST');
+  var today = new Date();
+  today.setHours(time.getHours());
+  today.setMinutes(time.getMinutes());
+  today.setSeconds(time.getSeconds());
+  STANDUP_TIME = today;
+})();
+var STANDUP_WARNING = 12.5 *60*1000;
+var STANDUP_LENGTH =  15   *60*1000;
+var TIMER_ACTIVE_WINDOW = 60 *60*1000;
+var TIMER_INACTIVE_TEXT = "-- - --";
+var TIMER_INACTIVE_COLOR = "blue";
+var TIMER_MEETING_COLOR = "green";
+var TIMER_WARNING_COLOR = "yellow";
+var TIMER_LATE_COLOR = "red";
+
+
 
 function initialPageRender(data) {
   personData = data.personData;
+  standupBeforeDuringAfter = data.standupBeforeDuringAfter || standupBeforeDuringAfter;
+  standupStartTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
+
   var discussionItems = data.discussionItems;
   var html = '';
 
-  html += '<div class="shuffle-button" tabindex="1">Shuffle</div>';
-  html += '<div class="reset-button" tabindex="1">Reset</div>';
+  html += '<div class="button shuffle-button" tabindex="1">Shuffle</div>';
+  html += '<div class="button reset-button" tabindex="1">Reset</div>';
+  html += '<div id="timer-button-container"><div class="button timer-button" tabindex="1">Start</div></div>';
+  html += '<div id="clock">' + TIMER_INACTIVE_TEXT + '</div>';
   html += '<table>';
   var rows = (personData.length / 4) + 1;
   for (var i=0; i < rows; i++) {
@@ -122,6 +149,7 @@ function initialPageRender(data) {
   setupNoteIcons();
   $('.shuffle-button').click(function() { doShuffle(); });
   $('.reset-button').click(function() { doReset(); });
+  $('.timer-button').click(function() { changeTimer(); });
 
   $('body').droppable({
     drop: function(event, ui) {
@@ -141,6 +169,56 @@ function initialPageRender(data) {
       }
     }
   });
+
+  standupBeforeDuringAfter == 'after' ? changeToAfter() : updateTimer();
+  clockUpdater = setInterval(updateTimer, 1000);
+}
+
+
+function zeroPaddedTime(minutes, seconds) {
+  var time = ("0" + minutes).slice(-2);
+  time += ":"
+  time += ("0" + seconds).slice(-2);
+  return time;
+}
+
+function updateTimer() {
+  var now = new Date().getTime();
+  var standup = STANDUP_TIME.getTime();
+  var content;
+  var color = TIMER_INACTIVE_COLOR;
+
+  function updateContentWith(millis) {
+    var seconds = Math.floor( Math.abs( millis / 1000 ) );
+    var minutes = Math.floor( seconds / 60 );
+    seconds = seconds % 60;
+    content = zeroPaddedTime(minutes, seconds);
+  }
+
+  if ((now < (standup -    TIMER_ACTIVE_WINDOW )) ||
+      (now > (standup + (2*TIMER_ACTIVE_WINDOW))) ) {
+    standupBeforeDuringAfter = 'before';
+    content = TIMER_INACTIVE_TEXT;
+  } else if (standupBeforeDuringAfter == 'before') {
+    updateContentWith(standup - now);
+    color = (standup - now) > 0 ? TIMER_INACTIVE_COLOR : TIMER_LATE_COLOR;
+  } else if (standupBeforeDuringAfter == 'during') {
+    var started = standupStartTime.getTime();
+    var millis = now - started;
+    updateContentWith(millis);
+
+         if (millis < STANDUP_WARNING) { color = TIMER_MEETING_COLOR; }
+    else if (millis < STANDUP_LENGTH)  { color = TIMER_WARNING_COLOR; }
+    else {                               color = TIMER_LATE_COLOR;    }
+
+    $('.timer-button').html('Finish');
+  } else { // 'after'
+    clearInterval(clockUpdater);
+  }
+
+  if (content) {
+    $('#clock').css('color', color).html(content);
+  }
 }
 
 function discussionItemTemplate(textAreaTag) {
@@ -241,7 +319,28 @@ function onDragStop(event, ui) {
   dragWatcher = null;
 }
 
+function changeToDuring() {
+  standupBeforeDuringAfter = 'during';
+  standupStartTime = new Date();
+  $('#clock').html('');
+}
+
+function changeToAfter() {
+  standupBeforeDuringAfter = 'after';
+  $('#timer-button-container').html('');
+}
+
+function changeTimer() {
+       if (standupBeforeDuringAfter == 'before') { changeToDuring(); }
+  else if (standupBeforeDuringAfter == 'during') { changeToAfter();  }
+
+  socket.emit('timer', { standupBeforeDuringAfter: standupBeforeDuringAfter, standupStartTime: standupStartTime.getTime() });
+}
+
 function doReset() {
+  standupBeforeDuringAfter = 'before';
+  standupStartTime = null;
+
   resetData();
   resetPersonPositions();
   socket.emit('reset', {});
@@ -376,6 +475,14 @@ socket.on('init', function(data) {
 socket.on('reset', function() {
   resetData();
   resetPersonPositions();
+});
+socket.on('timer', function(data) {
+  if (data.standupBeforeDuringAfter) {
+    standupBeforeDuringAfter = data.standupBeforeDuringAfter;
+	 if (standupBeforeDuringAfter == 'during') { changeToDuring(); }
+    else if (standupBeforeDuringAfter == 'after') { changeToAfter();  }
+  }
+  standupStartTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
 });
 socket.on('pair', function(data) {
   putThisIntoThat(data.person, data.target);
