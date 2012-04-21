@@ -74,6 +74,7 @@ var personData = [
   ];
 var standupBeforeDuringAfter;
 var standupStartTime;
+var standupStartTime;
 
 
 // browser-to-browser relay
@@ -86,6 +87,7 @@ io.sockets.on('connection', function (socket) {
   };
   if (standupBeforeDuringAfter) initialData.standupBeforeDuringAfter = standupBeforeDuringAfter;
   if (standupStartTime)         initialData.standupStartTime         = standupStartTime;
+  if (standupEndTime)           initialData.standupEndTime           = standupEndTime;
   socket.emit('init', initialData);
 
 
@@ -103,11 +105,13 @@ io.sockets.on('connection', function (socket) {
     pairNotes = {};
     standupBeforeDuringAfter = 'before';
     standupStartTime = null;
+    standupEndTime = null;
     socket.broadcast.emit('reset', {});
   });
   socket.on('timer', function(data){
     if (data.standupBeforeDuringAfter) standupBeforeDuringAfter = data.standupBeforeDuringAfter;
     if (data.standupStartTime)         standupStartTime         = data.standupStartTime;
+    if (data.standupEndTime)           standupEndTime           = data.standupEndTime;
     socket.broadcast.emit('timer', data);
   });
   socket.on('note', function(data){

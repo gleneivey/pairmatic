@@ -23,7 +23,10 @@ var dragWatcher = null;
 var lastDi = -1;
 var standupBeforeDuringAfter = 'before';
 var standupStartTime;
+var standupEndTime;
+
 var clockUpdater;
+var toyHeightMap = {};
 
 var ID_INDEX = 0;
 var NAME_INDEX = 1;
@@ -55,6 +58,7 @@ function initialPageRender(data) {
   personData = data.personData;
   standupBeforeDuringAfter = data.standupBeforeDuringAfter || standupBeforeDuringAfter;
   standupStartTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
+  standupEndTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
 
   var discussionItems = data.discussionItems;
   var html = '';
@@ -80,10 +84,21 @@ function initialPageRender(data) {
     html +=   '<td id="notes' + col + '" class="notes right"></td>'
     html += '</tr>';
   }
+
+
   html += '</table>\n';
-  html += '<img id="pear" class="food" src="/vendor/pear.png" />';
-  html += '<img id="stilton" class="food" src="/vendor/stilton.png" />';
-  html += '<img id="laphroaig" class="food" src="/vendor/laphroaig.png" />';
+  html += '<img id="pear" class="toy" src="/vendor/pear.png" />';
+  html += '<img id="stilton" class="toy" src="/vendor/stilton.png" />';
+  html += '<img id="teapot" class="toy" src="/vendor/teapot.png" />';
+  html += '<img id="laphroaig" class="toy" src="/vendor/laphroaig.png" />';
+  html += '<img id="t800" class="toy" src="/vendor/t800.png" />';
+
+  toyHeightMap.pear = '70px';
+  toyHeightMap.stilton = '64px';
+  toyHeightMap.teapot = '100px';
+  toyHeightMap.laphroaig = '110px';
+  toyHeightMap.t800 = '100px';
+
 
   for (var i=0; i < personData.length; i++) {
     var
@@ -203,8 +218,7 @@ function updateTimer() {
     updateContentWith(standup - now);
     color = (standup - now) > 0 ? TIMER_INACTIVE_COLOR : TIMER_LATE_COLOR;
   } else if (standupBeforeDuringAfter == 'during') {
-    var started = standupStartTime.getTime();
-    var millis = now - started;
+    var millis = standup - now;
     updateContentWith(millis);
 
          if (millis < STANDUP_WARNING) { color = TIMER_MEETING_COLOR; }
@@ -383,14 +397,28 @@ function resetData() {
   setupNoteIcons();
 }
 
+function expandToy(event, ui) {
+  event.currentTarget.style.height = toyHeightMap[event.currentTarget.id];
+}
+function toyDragStart(event, ui) {
+  expandToy(event, ui);
+  onDragStart(event, ui);
+}
 function resetPersonPositions() {
-  $('.food').draggable({
-    start: onDragStart,
-    stop: onDragStop
-  });
+  var x = 0, y;
+  $('.toy')
+      .draggable({
+	start: toyDragStart,
+	stop: onDragStop
+      })
+      .each(function() {
+	this.style.left = x;
+	x += 30;
+      })
+      .click(expandToy);
 
-  var x = 0;
-  var y = 0;
+  x = 0;
+  y = 20;
   $('.person').draggable({
     start: onDragStart,
     stop: onDragStop

@@ -181,26 +181,9 @@ td.notes.right textarea {
 }
 
 
-.food {
+.toy {
   position: absolute;
   cursor: pointer;
+  height: 20px;
+  top: -8px;
 }
-
-#pear {
-  height: 70px;
-  left: 384px;
-  top: 0px;
-}
-
-#stilton {
-  height: 64px;
-  left: 390px;
-  top: 80px;
-}
-
-#laphroaig {
-  height: 110px;
-  left: 410px;
-  top: 150px;
-}
-
