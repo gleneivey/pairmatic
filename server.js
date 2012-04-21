@@ -74,7 +74,7 @@ var personData = [
   ];
 var standupBeforeDuringAfter;
 var standupStartTime;
-var standupStartTime;
+var standupEndTime;
 
 
 // browser-to-browser relay

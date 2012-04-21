@@ -210,8 +210,8 @@ function updateTimer() {
     content = zeroPaddedTime(minutes, seconds);
   }
 
-  if ((now < (standup -    TIMER_ACTIVE_WINDOW )) ||
-      (now > (standup + (2*TIMER_ACTIVE_WINDOW))) ) {
+  if ((now < (standup - TIMER_ACTIVE_WINDOW)) ||
+      (now > (standup + TIMER_ACTIVE_WINDOW)) ) {
     standupBeforeDuringAfter = 'before';
     content = TIMER_INACTIVE_TEXT;
   } else if (standupBeforeDuringAfter == 'before') {
