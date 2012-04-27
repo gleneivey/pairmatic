@@ -316,13 +316,13 @@ function onDragStart(event, ui) {
     left: ui.originalPosition.left
   };
 
-  var person = event.target;
+  var elem = event.target;
   dragWatcher = setInterval(
       function() {
 	socket.emit('move', {
-	    person: person.id,
-	    top: person.style.top,
-	    left: person.style.left
+	    element: elem.id,
+	    top: elem.style.top,
+	    left: elem.style.left
 	 });
       }, 70
   );
@@ -397,11 +397,15 @@ function resetData() {
   setupNoteIcons();
 }
 
-function expandToy(event, ui) {
-  event.currentTarget.style.height = toyHeightMap[event.currentTarget.id];
+function expandToyOnEvent(event, ui) {
+  expandToy(event.currentTarget);
+}
+function expandToy(elem) {
+  var id = elem.id;
+  elem.style.height = toyHeightMap[id];
 }
 function toyDragStart(event, ui) {
-  expandToy(event, ui);
+  expandToyOnEvent(event, ui);
   onDragStart(event, ui);
 }
 function resetPersonPositions() {
@@ -415,7 +419,7 @@ function resetPersonPositions() {
 	this.style.left = x;
 	x += 30;
       })
-      .click(expandToy);
+      .click(expandToyOnEvent);
 
   x = 0;
   y = 20;
@@ -484,9 +488,12 @@ function doPair(personId, boxId){
 }
 
 function doMove(data) {
-  person = $('#' + data.person).get(0);
-  person.style.top = data.top;
-  person.style.left = data.left;
+  elem = $('#' + data.element).get(0);
+  elem.style.top = data.top;
+  elem.style.left = data.left;
+  if ($(elem).hasClass('toy')) {
+    expandToy(elem);
+  }
 }
 
 var socket = io.connect('/');
