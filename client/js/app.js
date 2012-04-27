@@ -34,17 +34,15 @@ var LOCATION_INDEX = 3;
 var GROUP_INDEX = 4;
 var GROUP_EMAIL = 5;
 
-var STANDUP_TIME;
-(function() {
-  var time = new Date('1/1/2012 09:30 MST');
-  var today = new Date();
-  today.setHours(time.getHours());
-  today.setMinutes(time.getMinutes());
-  today.setSeconds(time.getSeconds());
-  STANDUP_TIME = today;
-})();
-var STANDUP_WARNING = 12.5 *60*1000;
-var STANDUP_LENGTH =  15   *60*1000;
+var hoursFromUtc = parseInt(Date.today().getUTCOffset(), 10) / 100;
+var STANDUP_TIME = Date
+      .today()
+      .set({
+        hour: 09, minute: 30, second: 00
+      })
+      .add(hoursFromUtc - (-6)).hours();
+var STANDUP_WARNING =   12.5 *60*1000;
+var STANDUP_LENGTH =    15   *60*1000;
 var TIMER_ACTIVE_WINDOW = 60 *60*1000;
 var TIMER_INACTIVE_TEXT = "-- - --";
 var TIMER_INACTIVE_COLOR = "blue";
@@ -57,8 +55,8 @@ var TIMER_LATE_COLOR = "red";
 function initialPageRender(data) {
   personData = data.personData;
   standupBeforeDuringAfter = data.standupBeforeDuringAfter || standupBeforeDuringAfter;
-  standupStartTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
-  standupEndTime = data.standupStartTime ? new Date(data.standupStartTime) : null;
+  standupStartTime = data.standupStartTime ? Date.parse(data.standupStartTime) : null;
+  standupEndTime = data.standupEndTime ? Date.parse(data.standupEndTime) : null;
 
   var discussionItems = data.discussionItems;
   var html = '';
@@ -218,7 +216,7 @@ function updateTimer() {
     updateContentWith(standup - now);
     color = (standup - now) > 0 ? TIMER_INACTIVE_COLOR : TIMER_LATE_COLOR;
   } else if (standupBeforeDuringAfter == 'during') {
-    var millis = standup - now;
+    var millis = now - standup;
     updateContentWith(millis);
 
          if (millis < STANDUP_WARNING) { color = TIMER_MEETING_COLOR; }
@@ -348,7 +346,7 @@ function changeTimer() {
        if (standupBeforeDuringAfter == 'before') { changeToDuring(); }
   else if (standupBeforeDuringAfter == 'during') { changeToAfter();  }
 
-  socket.emit('timer', { standupBeforeDuringAfter: standupBeforeDuringAfter, standupStartTime: standupStartTime.getTime() });
+  socket.emit('timer', { standupBeforeDuringAfter: standupBeforeDuringAfter, standupStartTime: standupStartTime.toString() });
 }
 
 function doReset() {

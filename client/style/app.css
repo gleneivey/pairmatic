@@ -114,6 +114,7 @@ td.notes.right textarea {
   margin-bottom: 20px;
   text-align: center;
   outline: none;
+  cursor: pointer;
 
   width: 90px;
   line-height: 26px;
