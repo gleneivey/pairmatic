@@ -70,7 +70,8 @@ var personData = [
     [ "christian", "Christian", "cn",  "SF", "iOS",  "83d5299619b88c68e6360e4d05d1535f" ],
     [ "dan",       "Dan",       "dp",  null, null,   "ed2a327e601de8f01d9d0d728c480fa4" ],
     [ "chris",     "Chris",     "ct",  null, null,   "8a858ed4ebd2d2809c38b30b1135fd41" ],
-    [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ]
+    [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ],
+    [ "marlena",   "Marlena",   "mc",  null, null,   "13da5a99c297386370ab868f93b64b37" ]
   ];
 var standupBeforeDuringAfter;
 var standupStartTime;
