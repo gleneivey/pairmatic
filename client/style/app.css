@@ -141,14 +141,14 @@ td.notes.right textarea {
 #timer-button-container {
   z-index: 10;
   position: absolute;
-  top: 350px;
+  top: 260px;
   left: 320px;
 }
 
 
 #clock {
   position: absolute;
-  top: 274px;
+  top: 184px;
   left: 276px;
 
   font-size: 80px;

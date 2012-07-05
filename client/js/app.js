@@ -38,7 +38,7 @@ var hoursFromUtc = parseInt(Date.today().getUTCOffset(), 10) / 100;
 var STANDUP_TIME = Date
       .today()
       .set({
-        hour: 09, minute: 30, second: 00
+        hour: 09, minute: 05, second: 00
       })
       .add(hoursFromUtc - (-6)).hours();
 var STANDUP_WARNING =   12.5 *60*1000;
