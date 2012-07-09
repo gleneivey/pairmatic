@@ -64,6 +64,7 @@ var personData = [
     [ "chad",      "Chad",      "caw", null, "Ruby", "68613e8fd136bfddcdedd16b0bfa671f" ],
     [ "alex",      "Alex",      "aj",  "D",  "Ruby", "181cd2efadf4ee8155ed587e2fffbc5c" ],
     [ "matt",      "Matt",      "mh",  "D",  "Ruby", "208c855e1ed834f1d938e23fe747a549" ],
+    [ "jeff",      "Jeff",      "jt",  "D",  "Ruby", "13735d9f5d8c064fe93c8d62cad4c86f" ],
     [ "dan",       "Dan",       "dp",  null, null,   "ed2a327e601de8f01d9d0d728c480fa4" ],
     [ "chris",     "Chris",     "ct",  null, null,   "8a858ed4ebd2d2809c38b30b1135fd41" ],
     [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ],
