@@ -65,10 +65,13 @@ var personData = [
     [ "alex",      "Alex",      "aj",  "D",  "Ruby", "181cd2efadf4ee8155ed587e2fffbc5c" ],
     [ "matt",      "Matt",      "mh",  "D",  "Ruby", "208c855e1ed834f1d938e23fe747a549" ],
     [ "jeff",      "Jeff",      "jt",  "D",  "Ruby", "13735d9f5d8c064fe93c8d62cad4c86f" ],
+    [ "josh",      "Josh",      "jb",  "D",  "Ruby", "cdbe2f31c5e2e479fcfbb24f280694ae" ],
+    [ "morgan",    "Morgan",    "mw",  "D",  "Ruby", "a9ffc47025f9f7e2b608f459582e90e0" ],
     [ "dan",       "Dan",       "dp",  null, null,   "ed2a327e601de8f01d9d0d728c480fa4" ],
     [ "chris",     "Chris",     "ct",  null, null,   "8a858ed4ebd2d2809c38b30b1135fd41" ],
     [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ],
-    [ "marlena",   "Marlena",   "mc",  null, null,   "13da5a99c297386370ab868f93b64b37" ]
+    [ "marlena",   "Marlena",   "mc",  null, null,   "13da5a99c297386370ab868f93b64b37" ],
+    [ "lisa",      "Lisa",      "lc",  "D",  null,   "e26244dd769e216fee525f81f033737f" ]
   ];
 var standupBeforeDuringAfter;
 var standupStartTime;
