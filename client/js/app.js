@@ -50,10 +50,22 @@ var TIMER_MEETING_COLOR = "green";
 var TIMER_WARNING_COLOR = "yellow";
 var TIMER_LATE_COLOR = "red";
 
+        // establish same "random" number sequence across all clients
+var now = new Date();
+var dayString = now.getFullYear() + " " +
+                now.getMonth() + " " +
+                now.getDate() + " " +
+                now.getDay();
+Math.seedrandom(dayString);
 
 
 function initialPageRender(data) {
-  personData = data.personData;
+  var temp = data.personData;
+  personData = [];
+  while (temp.length > 0){
+    personData.push( temp.splice( Math.random()*temp.length, 1 )[0] );
+  }
+
   standupBeforeDuringAfter = data.standupBeforeDuringAfter || standupBeforeDuringAfter;
   standupStartTime = data.standupStartTime ? Date.parse(data.standupStartTime) : null;
   standupEndTime = data.standupEndTime ? Date.parse(data.standupEndTime) : null;
@@ -102,7 +114,6 @@ function initialPageRender(data) {
     var
       id = personData[i][0],
       name = personData[i][1],
-      location = personData[i][3],
       group = personData[i][4],
       email = personData[i][5];
 
@@ -111,10 +122,6 @@ function initialPageRender(data) {
     if (email) {
       var h = /@/.test(email) ? hex_md5(email) : email;
       html+= '<img src="http://www.gravatar.com/avatar/' + h + '?s=66"/>';
-    }
-
-    if (location) {
-      html += '<div class="where">' + location + '</div>';
     }
 
     html += '<span>' + name + '</span></div>';
