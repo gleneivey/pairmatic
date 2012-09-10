@@ -435,7 +435,7 @@ function resetPersonPositions() {
     this.style.left = x;
     this.style.top = y;
     x += 90;
-    if (x >= 300) {
+    if (x >= 390) {
       y += 90;
       x = 0;
     }
