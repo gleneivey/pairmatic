@@ -400,6 +400,7 @@ function resetData() {
   pairingState = {};
   dragstartPosition = {};
   setupNoteIcons();
+  setNote('notes0', 'Ops Pair');
 }
 
 function expandToyOnEvent(event, ui) {
@@ -507,6 +508,8 @@ socket.on('init', function(data) {
   initialPageRender(data);
   $.each(data['notes'], function(target, note) {
     setNote(target, note);
+    var area = $('#' + target + ' textarea');
+    area.change(sendNoteUpdate).keyup(sendNoteUpdate);
   });
   $.each(data['state'], function(target, person) {
     putThisIntoThat(person, target);

@@ -84,6 +84,13 @@ td.pair-filler {
   width: 20px;
 }
 
+#pA0, #pB0 {
+  background-color: #ffdcff;
+}
+#notes0 textarea {
+  background-color: #ffdcff;
+}
+
 td.notes, td.pair-filler {
   border: none;
 }

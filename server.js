@@ -54,7 +54,7 @@ function handler (req, res) {
 
 
 var pairingState = {};
-var pairNotes = {};
+var pairNotes = { 'notes0': 'Ops Pair' };
 var discussionItems = {};
 var personData = [
     [ "mark",      "Mark",      "mm",  "D",  "Ruby", "9e3861569add09d7787c95faadb98388" ],
@@ -104,7 +104,7 @@ io.sockets.on('connection', function (socket) {
   });
   socket.on('reset', function(){
     pairingState = {};
-    pairNotes = {};
+    pairNotes = { 'notes0': 'Ops Pair' };
     standupBeforeDuringAfter = 'before';
     standupStartTime = null;
     standupEndTime = null;
