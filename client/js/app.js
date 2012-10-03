@@ -102,12 +102,14 @@ function initialPageRender(data) {
   html += '<img id="teapot" class="toy" src="/vendor/teapot.png" />';
   html += '<img id="laphroaig" class="toy" src="/vendor/laphroaig.png" />';
   html += '<img id="t800" class="toy" src="/vendor/t800.png" />';
+  html += '<img id="brownies" class="toy" src="/vendor/brownies.png" />';
 
   toyHeightMap.pear = '70px';
   toyHeightMap.stilton = '64px';
   toyHeightMap.teapot = '100px';
   toyHeightMap.laphroaig = '110px';
   toyHeightMap.t800 = '100px';
+  toyHeightMap.brownies = '96px';
 
 
   for (var i=0; i < personData.length; i++) {
