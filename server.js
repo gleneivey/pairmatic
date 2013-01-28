@@ -62,7 +62,6 @@ var personData = [
     [ "glen",      "Glen",      "gi",  null, "Ruby", "givey@pivotallabs.com" ],
     [ "lewis",     "Lewis",     "lh",  "D",  "Ruby", "620cd525ccfe6f73044251c71e8d26f7" ],
     [ "chad",      "Chad",      "caw", null, "Ruby", "68613e8fd136bfddcdedd16b0bfa671f" ],
-    [ "alex",      "Alex",      "aj",  "D",  "Ruby", "181cd2efadf4ee8155ed587e2fffbc5c" ],
     [ "matt",      "Matt",      "mh",  "D",  "Ruby", "208c855e1ed834f1d938e23fe747a549" ],
     [ "jeff",      "Jeff",      "jt",  "D",  "Ruby", "13735d9f5d8c064fe93c8d62cad4c86f" ],
     [ "josh",      "Josh",      "jb",  "D",  "Ruby", "3f04d53f4fb5f2a97df9f5db2c9dc166" ],
@@ -71,7 +70,9 @@ var personData = [
     [ "chris",     "Chris",     "ct",  null, null,   "8a858ed4ebd2d2809c38b30b1135fd41" ],
     [ "jo",        "Jo",        "jw",  null, null,   "efaa5e89a9fccfaf656dd34673d3e518" ],
     [ "marlena",   "Marlena",   "mc",  null, null,   "13da5a99c297386370ab868f93b64b37" ],
-    [ "lisa",      "Lisa",      "lc",  "D",  null,   "e26244dd769e216fee525f81f033737f" ]
+    [ "lisa",      "Lisa",      "lc",  "D",  null,   "e26244dd769e216fee525f81f033737f" ],
+    [ "thomas",    "Thomas",    "tb",  "SF", "Ruby", "4a4dd769149baedf9212e7af94c6c11c" ],
+    [ "ryan",      "Ryan",      "rd",  "SF", "Ruby", "ca2b32f1bf5d4efdf458c7d2053a92fd" ]
   ];
 var standupBeforeDuringAfter;
 var standupStartTime;
